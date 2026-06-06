@@ -27,7 +27,7 @@ with st.sidebar:
 col1, col2 = st.columns([1, 6])
 
 with col1:
-    st.image("ttr_logo_icon.png", width=140)
+    st.image("TTR_Logo_Icon.png", width=140)
 
 with col2:
     st.markdown("<h1 style='margin-bottom: 0;'>TTR Jobs Report Insights</h1>", unsafe_allow_html=True)
