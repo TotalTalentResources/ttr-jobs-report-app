@@ -3,7 +3,7 @@ from jobs_engine import generate_report
 st.markdown("""
     <style>
     div.stButton > button {
-        background-color: #1F3A8A;
+        background-color: #007CA9;
         color: white;
         font-weight: bold;
         border-radius: 10px;
