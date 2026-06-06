@@ -1,5 +1,21 @@
 import streamlit as st
 from jobs_engine import generate_report
+st.markdown("""
+    <style>
+    div.stButton > button {
+        background-color: #1F3A8A;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        height: 3.5em;
+        font-size: 18px;
+    }
+    div.stButton > button:hover {
+        background-color: #162a68;
+        color: white;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 st.set_page_config(page_title="Jobs Report Generator", layout="wide")
 
