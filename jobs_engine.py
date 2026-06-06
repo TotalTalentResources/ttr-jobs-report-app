@@ -74,7 +74,7 @@ def generate_report(industry,expected_jobs_k):
     # ✅ Safety check
     if any(x is None for x in [payrolls, unemployment, participation, wages,
                                manufacturing, transportation, warehousing]):
-        return "⚠️ Error: Unable to retrieve jobs data right now. Please try again."
+        return "⚠️ Error: Unable to retrieve jobs data right now. Please try again.", None
 
     # ✅ Core data
     data = {
@@ -111,7 +111,7 @@ def generate_report(industry,expected_jobs_k):
     
     # ✅ Safety check: prevent bad headline values
     if data["headline_jobs_k"] < 50 or data["headline_jobs_k"] > 500:
-        return "⚠️ Jobs report data is still updating. Please try again in a few minutes."
+        return "⚠️ Jobs report data is still updating. Please try again in a few minutes.", None
     
    
     data["unemployment_rate"] = round(data["unemployment_current"], 1)
@@ -319,4 +319,4 @@ STYLE:
         ]
     )
 
-    return response.choices[0].message.content
+    return response.choices[0].message.content, payroll_date
