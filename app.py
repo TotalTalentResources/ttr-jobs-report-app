@@ -1,6 +1,8 @@
 import streamlit as st
 import datetime
 from jobs_engine import generate_report
+if "report_month" not in st.session_state:
+    st.session_state.report_month = None
 st.markdown("""
     <style>
     div.stButton > button {
