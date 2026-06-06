@@ -1,8 +1,13 @@
 import streamlit as st
 import datetime
 from jobs_engine import generate_report
+
+# ✅ Initialize session state
 if "report_month" not in st.session_state:
     st.session_state.report_month = None
+
+st.set_page_config(page_title="Jobs Report Generator", layout="wide")
+
 st.markdown("""
     <style>
     div.stButton > button {
@@ -19,8 +24,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
-st.set_page_config(page_title="Jobs Report Generator", layout="wide")
 
 # ✅ Sidebar (inputs)
 with st.sidebar:
@@ -40,38 +43,26 @@ with st.sidebar:
     )
 
     generate = st.button("Generate Report", use_container_width=True)
+
     if st.button("Clear and Start Over", use_container_width=True):
         st.session_state.clear()
         st.rerun()
 
-# ✅ Main page (output)
 
-col1, col2 = st.columns([1, 6])
+# ✅ ✅ STEP 1 — HANDLE GENERATE FIRST (THIS IS THE KEY)
+report = None
 
-with col1:
-    st.image("TTR_Logo_Icon.png", width=140)
-
-with col2:
-    st.markdown("<h1 style='margin-bottom: 0;'>TTR Jobs Report Insights</h1>", unsafe_allow_html=True)
-    st.caption("Generate client-ready economic insights in seconds")
-
-    # ✅ ADD HERE
-    if "report_month" in st.session_state and st.session_state.report_month:
-        st.caption(f"📊 Jobs Report: {st.session_state.report_month}")
- 
-
-
-# Only run when button clicked
 if generate:
 
     if expected_jobs_k == 0:
         st.warning("⚠️ Please enter an expected jobs value before generating the report.")
+
     else:
         with st.spinner("Analyzing labor market data..."):
-            report, payroll_date = generate_report(industry, expected_jobs_k)
-            
 
-            # Convert BLS date like "2026-M06" → "June 2026"
+            report, payroll_date = generate_report(industry, expected_jobs_k)
+
+            # Convert BLS date
             if payroll_date:
                 try:
                     year = payroll_date.split("-")[0]
@@ -81,12 +72,31 @@ if generate:
                     report_month = "Latest Release"
             else:
                 report_month = "Latest Release"
+
             st.session_state.report_month = report_month
 
-        st.subheader("Generated Client Email")
-        st.divider()
 
-        st.markdown(report)
+# ✅ ✅ STEP 2 — NOW RENDER HEADER (NOW IT CAN SEE THE VALUE)
+col1, col2 = st.columns([1, 6])
 
-        st.success("✅ Report generated — ready to copy")
-        st.caption("Highlight and copy the email above to paste into Outlook or the CRM")
+with col1:
+    st.image("TTR_Logo_Icon.png", width=140)
+
+with col2:
+    st.markdown("<h1 style='margin-bottom: 0;'>TTR Jobs Report Insights</h1>", unsafe_allow_html=True)
+    st.caption("Generate client-ready economic insights in seconds")
+
+    if st.session_state.report_month:
+        st.caption(f"📊 Jobs Report: {st.session_state.report_month}")
+
+
+# ✅ ✅ STEP 3 — OUTPUT (ONLY IF REPORT EXISTS)
+if report:
+
+    st.subheader("Generated Client Email")
+    st.divider()
+
+    st.markdown(report)
+
+    st.success("✅ Report generated — ready to copy")
+    st.caption("Highlight and copy the email above to paste into Outlook or the CRM")
