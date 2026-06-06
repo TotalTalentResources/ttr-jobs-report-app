@@ -93,7 +93,7 @@ with col2:
 # ✅ ✅ STEP 3 — OUTPUT (ONLY IF REPORT EXISTS)
 if report:
 
-    st.subheader("Generated Client Email")
+    st.subheader("Job Report Summary for Communication")
     st.divider()
 
     st.markdown(report)
