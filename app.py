@@ -65,7 +65,4 @@ if generate:
         st.markdown(report)
 
         st.success("✅ Report generated — ready to copy")
-
-        st.divider()
-
-        st.text_area("Copy / Edit Email", report, height=400)
+        st.caption("Highlight and copy the email above to paste into Outlook or the CRM")
