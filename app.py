@@ -37,6 +37,8 @@ with st.sidebar:
     )
 
     generate = st.button("Generate Report", use_container_width=True)
+    if st.button("Clear and Start Over":
+        st.rerun()
 
 # ✅ Main page (output)
 
