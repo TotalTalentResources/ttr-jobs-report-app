@@ -1,4 +1,5 @@
 import streamlit as st
+import datetime
 from jobs_engine import generate_report
 st.markdown("""
     <style>
@@ -38,6 +39,7 @@ with st.sidebar:
 
     generate = st.button("Generate Report", use_container_width=True)
     if st.button("Clear and Start Over", use_container_width=True):
+        st.session_state.clear()
         st.rerun()
 
 # ✅ Main page (output)
@@ -51,6 +53,11 @@ with col2:
     st.markdown("<h1 style='margin-bottom: 0;'>TTR Jobs Report Insights</h1>", unsafe_allow_html=True)
     st.caption("Generate client-ready economic insights in seconds")
 
+    # ✅ ADD HERE
+    if "report_month" in st.session_state and st.session_state.report_month:
+        st.caption(f"📊 Jobs Report: {st.session_state.report_month}")
+ 
+
 
 # Only run when button clicked
 if generate:
@@ -59,7 +66,20 @@ if generate:
         st.warning("⚠️ Please enter an expected jobs value before generating the report.")
     else:
         with st.spinner("Analyzing labor market data..."):
-            report = generate_report(industry, expected_jobs_k)
+            report, payroll_date = generate_report(industry, expected_jobs_k)
+            
+
+            # Convert BLS date like "2026-M06" → "June 2026"
+            if payroll_date:
+                try:
+                    year = payroll_date.split("-")[0]
+                    month = payroll_date.split("-")[1].replace("M", "")
+                    report_month = datetime.datetime(int(year), int(month), 1).strftime("%B %Y")
+                except:
+                    report_month = "Latest Release"
+            else:
+                report_month = "Latest Release"
+            st.session_state.report_month = report_month
 
         st.subheader("Generated Client Email")
         st.divider()
