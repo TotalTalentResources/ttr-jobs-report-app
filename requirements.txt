@@ -1,0 +1,6 @@
+
+streamlit
+fredapi
+openai
+requests
+                                                                                                                             
